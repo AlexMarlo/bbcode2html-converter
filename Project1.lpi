@@ -10,6 +10,7 @@
         <MainUnitHasTitleStatement Value="False"/>
       </Flags>
       <MainUnit Value="0"/>
+      <Title Value="bbcode2html converter"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
@@ -98,7 +99,6 @@
         <WindowIndex Value="0"/>
         <TopLine Value="108"/>
         <CursorPos X="75" Y="121"/>
-        <FoldState Value=" T3G0c0"/>
         <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>

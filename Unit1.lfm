@@ -4,7 +4,7 @@ object Form1: TForm1
   Top = 130
   Width = 795
   AutoSize = True
-  Caption = 'bb code to html converter'
+  Caption = 'bbcode2html converter'
   ClientHeight = 491
   ClientWidth = 795
   Color = clBtnFace
