@@ -194,7 +194,7 @@ end;
 procedure TForm1.Button6Click(Sender: TObject);
 var
   j, z, en: integer;
-  buf, buf2, str: string;
+  buf, buf2, img, str: string;
 begin
   memo2.Clear;
   memo3.Clear;
@@ -202,22 +202,20 @@ begin
 
   for j := 0 to memo1.Lines.Count - 1 do
   begin
-    buf := get_str_between(memo1.lines[j], '[URL=', ']', en);
+    str := memo1.lines[j];
 
-    if (buf <> '') and (buf <> ' ') and (memo1.Lines[j][1] = '[') and
-      ((memo1.Lines[j][2] = 'U') or (memo1.Lines[j][2] = 'u')) then
+    buf := get_str_between(str, '[URL=', ']', en);
+
+    if (buf <> '') and (buf <> ' ') and (str[1] = '[') and
+      ((str[2] = 'U') or (str[2] = 'u')) then
     begin
-      str := copy(memo1.Lines[j], en, length(memo1.Lines[j]) - en + 1);
+      str := copy(str, en, length(str) - en + 1);
       buf2 := get_str_between(str, ']', '[/url]', en);
+      img := get_str_between(str, '[img]', '[/img]', en);
 
-      if buf2 = '' then
+      if not(img = '') then
       begin
-        buf2 := get_str_between(str, '[IMG]', '[/IMG]', en);
-
-        buf2 := replace(buf2, '[b]', '<b>');
-        buf2 := replace(buf2, '[/b]', '</b>');
-
-        memo2.Lines.Add('<a href="' + buf + '"><img src="' + buf2 + '"></a>');
+        memo2.Lines.Add('<a href="' + buf + '"><img src="' + img + '"></a>');
         continue;
       end;
 
@@ -228,7 +226,6 @@ begin
     else
     begin
       str := memo1.Lines[j];
-
       str := replace(str, '[b]', '<b>');
       str := replace(str, '[/b]', '</b>');
       memo2.Lines.Add(str);
