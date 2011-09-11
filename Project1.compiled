@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CONFIG>
-  <Compiler Value="C:\program_files\lazarus\fpc\2.4.2\bin\i386-win32\fpc.exe" Date="1047030822"/>
-  <Params Value=" -MDelphi -Scghi -CX -O1 -gl -Xg -Xs -XX -vewnhi -l -FuC:\program_files\lazarus\lcl\units\i386-win32 -FuC:\program_files\lazarus\lcl\units\i386-win32\win32 -FuC:\program_files\lazarus\packager\units\i386-win32 &quot;-FuC:\Documents and Settings\xanm\Рабочий стол\bbcode2html converter\&quot; -Fu. -oProject1.exe -dLCL -dLCLwin32 Project1.lpr"/>
-</CONFIG>

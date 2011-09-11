@@ -11,6 +11,7 @@ function search_boyer_moore(StartPos: integer; const haystack, needle: string): 
 function get_str_between(const haystack, left_str, right_str: string; var str_end: integer): string;
 function replace(where: string; what: string; than: string): string;
 function search_pattern(const haystack, pattern: string; start_pos: integer; var pos: longint): string;
+function trim(const str: string): string;
 
 implementation
 
@@ -119,5 +120,25 @@ begin
   Result := StringReplace(Result, what, than, [rfReplaceAll]);
 end;
 
-end.
+function trim(const str: string): string;
+var
+  i, j, len: integer;
+begin
+  result := str;
+  len := length(str);
+  for i := 1 to len do
+  begin
+    if not (result[i] = ' ') then
+      break;
+  end;
 
+  for j := len downto 1 do
+  begin
+    if not (result[j] = ' ') then
+      break;
+  end;
+
+  result := copy(result, i, j - i + 1);
+end;
+
+end.

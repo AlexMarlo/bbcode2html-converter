@@ -1,10 +1,14 @@
-program Project1;
+program project1;
 
-{$MODE Delphi}
+{$mode delphi}
 
 uses
-  Forms, Interfaces,
-  Unit1 in 'Unit1.pas' {Form1};
+  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  cthreads,
+  {$ENDIF}{$ENDIF}
+  Interfaces, // this includes the LCL widgetset
+  Forms, Unit1, StringsHelper
+  { you can add units after this };
 
 {$R *.res}
 
@@ -13,3 +17,4 @@ begin
   Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.
+

@@ -1,4 +1,4 @@
-Project1.dbg
+*.dbg
 backup
 ConverterBackup
 *.exe
