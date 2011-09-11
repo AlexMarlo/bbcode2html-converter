@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 232
+  Left = 241
   Height = 491
-  Top = 130
+  Top = 139
   Width = 795
   AutoSize = True
   Caption = 'bbcode2html converter'
@@ -19,6 +19,9 @@ object Form1: TForm1
     Top = 0
     Width = 795
     Align = alTop
+    Lines.Strings = (
+      '[uRL=http://oron.com/4n0muoyl0l82][b]part2[/b][/UrL]'
+    )
     ScrollBars = ssBoth
     TabOrder = 0
   end
@@ -42,8 +45,8 @@ object Form1: TForm1
     end
     object Button3: TButton
       Left = 712
-      Height = 58
-      Top = 7
+      Height = 59
+      Top = 6
       Width = 76
       Caption = 'Очистить'
       OnClick = Button3Click
@@ -123,7 +126,7 @@ object Form1: TForm1
     end
   end
   object SaveDialog1: TSaveDialog
-    left = 16
-    top = 8
+    left = 664
+    top = 160
   end
 end

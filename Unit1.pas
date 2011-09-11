@@ -32,7 +32,7 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
-   private
+  private
     { Private declarations }
   public
     { Public declarations }
@@ -47,11 +47,14 @@ implementation
 
 procedure paste_to_clipboard(const Str: WideString);
 var
-  Size: Integer;
+  Size: integer;
   Data: THandle;
   DataPtr: Pointer;
 begin
   Size := Length(Str);
+  Clipboard.AsText := Str;
+  exit;
+
   if Size = 0 then
     exit;
   if not IsClipboardFormatAvailable(CF_UNICODETEXT) then
@@ -64,6 +67,7 @@ begin
       DataPtr := GlobalLock(Data);
       try
         Move(Pointer(Str)^, DataPtr^, Size);
+        //Clipboard.AsText := Data;
         //Clipboard.SetTextBuf(Data);
         //Clipboard.SetAsHandle(CF_UNICODETEXT, Data);
       finally
@@ -75,13 +79,14 @@ begin
     end;
   end;
 end;
+
 procedure CSTC(s: string);
 var
   hg: THandle;
   P: PChar;
 begin
-  hg:=GlobalAlloc(GMEM_DDESHARE or GMEM_MOVEABLE, Length(S)+1);
-  P:=GlobalLock(hg);
+  hg := GlobalAlloc(GMEM_DDESHARE or GMEM_MOVEABLE, Length(S) + 1);
+  P := GlobalLock(hg);
   StrPCopy(P, s);
   GlobalUnlock(hg);
   //OpenClipboard(Application.Handle);
@@ -101,33 +106,34 @@ begin
   memo2.Clear;
   memo3.Clear;
   z := 0;
-  for j := 0 to memo1.lines.count - 1 do
-    begin
+
+  for j := 0 to memo1.Lines.Count - 1 do
+  begin
     if copy(memo1.Lines[j], 8, 4) <> 'www.' then
       buf2 := copy(memo1.Lines[j], 8, length(memo1.Lines[j]))
     else
       buf2 := copy(memo1.Lines[j], 12, length(memo1.Lines[j]));
     for k := 1 to length(buf2) do
-      begin
-        if (buf2[k] = '/'){ or (buf2[k] = '.')} then
-          break;
-      end;
+    begin
+      if (buf2[k] = '/'){ or (buf2[k] = '.')} then
+        break;
+    end;
     buf2 := copy(buf2, 1, k - 1);
              { if buf=buf2 then
                 begin
                   cmp:=true;
                   break;
                 end;   }
-    if (memo1.lines[j]<>'')and(memo1.lines[j]<>' ') then
-      begin
-        if memo1.lines.count > 1 then
-          buf2 := '[b]' + Edit1.text + inttostr(j + 1 - z) + '[/b]';
-        memo2.Lines.Add('[url='+memo1.lines[j]+']'+buf2+'[/url]');
+    if (memo1.Lines[j] <> '') and (memo1.Lines[j] <> ' ') then
+    begin
+      if memo1.Lines.Count > 1 then
+        buf2 := '[b]' + Edit1.Text + IntToStr(j + 1 - z) + '[/b]';
+      memo2.Lines.Add('[url=' + memo1.Lines[j] + ']' + buf2 + '[/url]');
 
-        if memo1.lines.count > 1 then
-          buf2 := Edit1.text + inttostr(j + 1 - z);
-        memo3.Lines.Add('<a href="' + memo1.lines[j] + '">' + buf2 + '</a>');
-      end
+      if memo1.Lines.Count > 1 then
+        buf2 := Edit1.Text + IntToStr(j + 1 - z);
+      memo3.Lines.Add('<a href="' + memo1.Lines[j] + '">' + buf2 + '</a>');
+    end
     else
       z := z + 1;
     //<a href="http://uploadbox.com/files/OkG6wkz8Dt">Amalia1</a>
@@ -139,14 +145,18 @@ begin
   //memo2.Lines.Add('</html>');
   paste_to_clipboard(memo2.Text);
 end;
+
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   Memo1.Clear;
 end;
+
 procedure TForm1.Button4Click(Sender: TObject);
 begin
-  CSTC(memo2.Text)
+  paste_to_clipboard(memo2.Text);
+  //CSTC(memo2.Text);
 end;
+
 procedure TForm1.Button5Click(Sender: TObject);
 var
   i: integer;
@@ -158,28 +168,29 @@ begin
   memo2.Clear;
   memo3.Clear;
 
-  for j := 0 to memo1.lines.count - 1 do
+  for j := 0 to memo1.Lines.Count - 1 do
+  begin
+    if copy(memo1.Lines[j], 8, 4) <> 'www.' then
+      buf2 := copy(memo1.Lines[j], 8, length(memo1.Lines[j]))
+    else
+      buf2 := copy(memo1.Lines[j], 12, length(memo1.Lines[j]));
+    for k := 1 to length(buf2) do
     begin
-      if copy(memo1.Lines[j], 8, 4) <> 'www.' then
-        buf2:=copy(memo1.Lines[j], 8, length(memo1.Lines[j]))
-      else
-        buf2:=copy(memo1.Lines[j], 12, length(memo1.Lines[j]));
-      for k:=1 to length(buf2) do
-        begin
-          if (buf2[k] = '/') {or (buf2[k] = '.')} then
-            break;
-        end;
-      buf2 := copy(buf2, 1, k - 1);
+      if (buf2[k] = '/') {or (buf2[k] = '.')} then
+        break;
+    end;
+    buf2 := copy(buf2, 1, k - 1);
 
     //if memo1.lines.count > 1 then buf2 := 'Part' + inttostr(j + 1);
-    if (memo1.lines[j] <> '') and (memo1.lines[j] <> ' ') then
-      begin
-        memo2.Lines.Add('[url=' + memo1.lines[j] + ']' + memo1.lines[j] + '[/url]');
-        memo3.Lines.Add('<a href="' + memo1.lines[j] + '">' + memo1.lines[j] + '</a>');
-      end;
+    if (memo1.Lines[j] <> '') and (memo1.Lines[j] <> ' ') then
+    begin
+      memo2.Lines.Add('[url=' + memo1.Lines[j] + ']' + memo1.Lines[j] + '[/url]');
+      memo3.Lines.Add('<a href="' + memo1.Lines[j] + '">' + memo1.Lines[j] + '</a>');
     end;
+  end;
   paste_to_clipboard(memo2.Text);
 end;
+
 procedure TForm1.Button6Click(Sender: TObject);
 var
   j, z, en: integer;
@@ -188,52 +199,47 @@ begin
   memo2.Clear;
   memo3.Clear;
   z := 0;
-  for j := 0 to memo1.lines.count - 1 do
+
+  for j := 0 to memo1.Lines.Count - 1 do
+  begin
+    buf := get_str_between(memo1.lines[j], '[URL=', ']', en);
+
+    if (buf <> '') and (buf <> ' ') and (memo1.Lines[j][1] = '[') and
+      ((memo1.Lines[j][2] = 'U') or (memo1.Lines[j][2] = 'u')) then
     begin
-      buf := get_str_between(memo1.lines[j], '[URL=',']', en);
-      if (buf <> '') and (buf[1] = '=') then
-        buf := get_str_between(memo1.lines[j], '[url=', ']', en);
+      str := copy(memo1.Lines[j], en, length(memo1.Lines[j]) - en + 1);
+      buf2 := get_str_between(str, ']', '[/url]', en);
 
-      if (buf<>'')and(buf<>' ')and(memo1.lines[j][1]='[')and((memo1.lines[j][2]='U')or(memo1.lines[j][2]='u')){} then
-        begin
-          str := copy(memo1.lines[j], en, length(memo1.lines[j]) - en + 1);
-          buf2 := get_str_between(str, ']', '[/url]', en);
-          if buf2 = '' then
-            begin
-              buf2 := get_str_between(str, '[IMG]', '[/IMG]', en);
+      if buf2 = '' then
+      begin
+        buf2 := get_str_between(str, '[IMG]', '[/IMG]', en);
 
-              if (search_boyer_moore(1,str,'[b]')>0)or(search_boyer_moore(1,str,'[/b]')>0)  then
-                begin
-                  buf2 := exchange(buf2, '[b]', '<b>');
-                  buf2 := exchange(buf2, '[/b]', '</b>');
-                end;
-              memo2.Lines.Add('<a href="'+buf+'"><img src="'+buf2+'"></a>');
-              continue;
-            end;
-          if (search_boyer_moore(1,str,'[b]')>0)or(search_boyer_moore(1,str,'[/b]')>0)  then
-            begin
-              buf2:=exchange(buf2,'[b]','<b>');
-              buf2:=exchange(buf2,'[/b]','</b>');
-            end;
-          memo2.Lines.Add('<a href="'+buf+'">'+buf2+'</a>');
-        end
-      else
-        begin
-          str:=memo1.lines[j];
-          if (search_boyer_moore(1,str,'[b]')>0)or(search_boyer_moore(1,str,'[/b]')>0) then
-            begin
-              str:=exchange(str,'[b]','<b>');
-              str:=exchange(str,'[/b]','</b>');
-              //memo1.lines.add(inttostr(search_boyer_moore(1,str,'[/b]')));
-            end;
-          memo2.Lines.Add(str);
-        end;
-      //memo2.Lines.Add(buf);
+        buf2 := replace(buf2, '[b]', '<b>');
+        buf2 := replace(buf2, '[/b]', '</b>');
+
+        memo2.Lines.Add('<a href="' + buf + '"><img src="' + buf2 + '"></a>');
+        continue;
+      end;
+
+      buf2 := replace(buf2, '[b]', '<b>');
+      buf2 := replace(buf2, '[/b]', '</b>');
+      memo2.Lines.Add('<a href="' + buf + '">' + buf2 + '</a>');
+    end
+    else
+    begin
+      str := memo1.Lines[j];
+
+      str := replace(str, '[b]', '<b>');
+      str := replace(str, '[/b]', '</b>');
+      memo2.Lines.Add(str);
     end;
+  end;
 end;
+
 procedure TForm1.Button7Click(Sender: TObject);
 begin
-  memo3.Text := exchange(memo1.Text, edit1.Text, memo2.Text)
+  memo3.Text := replace(memo1.Text, edit1.Text, memo2.Text);
 end;
 
 end.
+
